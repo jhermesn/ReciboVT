@@ -1,0 +1,21 @@
+{
+  "name": "Gerador de Recibo de Vale-Transporte",
+  "short_name": "ValeTransporte",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#1e88e5",
+  "description": "Aplicação PWA para gerar recibos de vale-transporte.",
+  "icons": [
+    {
+      "src": "assets/favicon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/favicon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
