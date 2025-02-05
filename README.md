@@ -20,7 +20,7 @@ Este projeto facilita a geração de **recibos de vale-transporte**, permitindo 
 ---
 
 ## Características Principais
-- **Baseado em Modelo do GOV.BR**: Segue o modelo disponibilizado pelo eSocial para empregadores domésticos.  
+- **Baseado no Modelo do GOV.BR**: Segue o modelo disponibilizado pelo eSocial para empregadores domésticos.  
 - **Preenchimento de Campos**: Empregador, empregado, valor diário, dias trabalhados, mês e ano.  
 - **Validação Básica**: Verifica se os valores estão dentro de faixas plausíveis (mês entre 1 e 12, ano entre 2000 e 2100, etc.).  
 - **Duas Vias na Mesma Folha**: As duas vias do recibo são geradas na mesma página para reduzir desperdício de papel.  
@@ -41,26 +41,6 @@ Este projeto facilita a geração de **recibos de vale-transporte**, permitindo 
     - Preencha os campos de *Empregador(a)*, *Empregado(a)*, *Valor (R$) por dia*, *Dias trabalhados*, *Mês* e *Ano*.
     - Clique em **Gerar PDF**.
     - O recibo será criado e baixado automaticamente no formato PDF.
-
----
-
-## Estrutura de Pastas
-Uma possível estrutura de pastas organizada no repositório:
-```plaintext
-src/
-├── index.html
-├── README.md
-├── css/
-│   └── styles.css
-├── js/
-│   └── main.js
-└── assets/
-    └── favicon.ico
-```
-- **index.html**: Contém a estrutura principal (HTML).
-- **css/styles.css**: Define o layout e o tema escuro.
-- **js/main.js**: Possui a lógica de validação, persistência e geração do PDF.
-- **assets/**: Armazena ícones, imagens e outros arquivos estáticos.
 
 ---
 
