@@ -29,7 +29,7 @@ Este projeto facilita a geração de **recibos de vale-transporte**, permitindo 
 
 ---
 
-## Como Usar
+## Como Rodar Localmente
 1. **Clonar o repositório**:
    ```bash
    git clone https://github.com/jhermesn/ReciboVT.git
