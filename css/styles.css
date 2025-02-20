@@ -73,8 +73,41 @@ input[type="number"] {
 
 /* Estilos para a Checkbox */
 input[type="checkbox"] {
-    margin-top: 10px; /* Espaçamento acima da checkbox */
-    accent-color: var(--primary-color); /* Cor da checkbox */
+    display: none; 
+}
+
+.custom-checkbox {
+    width: 24px; 
+    height: 24px; 
+    background-color: #2c2c2c; 
+    border: 2px solid var(--border-color); 
+    border-radius: 4px; 
+    display: inline-block; 
+    position: relative; 
+    cursor: pointer; 
+    text-align: center;
+}
+
+.custom-checkbox::after {
+    content: ""; 
+    position: absolute;
+    top: 10%;
+    left: 12%;
+    width: 16px; 
+    height: 16px; 
+    background-color: transparent; 
+    border: 2px solid transparent; 
+    transform: rotate(45deg); 
+}
+
+input[type="checkbox"]:checked + .custom-checkbox::after {
+    content: ""; 
+    background-color: transparent; 
+    border: 2px solid #fff; 
+}
+
+input[type="checkbox"]:checked + .custom-checkbox {
+    background-color: #383838; 
 }
 
 /* Estilos dos Botões */

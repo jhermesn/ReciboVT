@@ -43,11 +43,15 @@ function template (info, styles) {
             }
             .signature {
             margin-top: 30px;
+            display: flex;
+            justify-content: center;
             text-align: center;
             }
             .signature p {
             border-top: 1px solid #000;
             padding-top: 5px;
+            display: flex;
+            justify-content: center;
             width: 300px;
             text-align: center;
             }

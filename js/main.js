@@ -1,4 +1,5 @@
 import { template } from './htmlTemplate/template.js';
+import { jsPDF } from './jsPdf/service.js';
 
 // Constantes para chaves de armazenamento
 const STORAGE_KEYS = {
@@ -122,20 +123,25 @@ const gerarPDF = () => {
         return;
     }
 
-    // Gera o documento HTML utilizando o template
-    const documentContent = template(info, style);
-    var novaJanela = window.open('', '_blank');
-    novaJanela.document.open();
-    novaJanela.document.write(documentContent);
-    novaJanela.document.close();
+    const checkbox = document.getElementById('customizacaoEscala');
+    if (checkbox.checked && checkbox) {
+        // Gera o documento HTML utilizando o template
+        const documentContent = template(info, style);
+        var novaJanela = window.open('', '_blank');
+        novaJanela.document.open();
+        novaJanela.document.write(documentContent);
+        novaJanela.document.close();
 
-    // Após o carregamento, abre a caixa de impressão e fecha a janela
-    novaJanela.onload = function() {
-        novaJanela.print();
-        novaJanela.onafterprint = function() {
-            novaJanela.close();
+        // Após o carregamento, abre a caixa de impressão e fecha a janela
+        novaJanela.onload = function() {
+            novaJanela.print();
+            novaJanela.onafterprint = function() {
+                novaJanela.close();
+            };
         };
-    };
+    } else {
+        jsPDF(info);
+    }
 };
 
 btnGerarPdf.addEventListener('click', gerarPDF);
