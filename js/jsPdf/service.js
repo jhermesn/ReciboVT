@@ -39,10 +39,8 @@ function jsPDF(info) {
       posY += linhaSimples;
     };
   
-    const textoRecebi = `Recebi ${info.valorStr} de Vale-transporte, referente ao mês de ${info.nomeMes} pelo que firmo o presente.`;
-  
-    // Gera duas vias do recibo
-    for (let i = 0; i < 2; i++) {
+    // Função para gerar o conteúdo de um único recibo
+    const geraRecibo = () => {
       doc.setFontSize(24);
       doc.setFont('Helvetica', 'bold');
       doc.text('RECIBO', largura / 2, posY, { align: 'center' });
@@ -59,6 +57,7 @@ function jsPDF(info) {
       textoLinha(`Empregado(a): ${info.empregado}`);
   
       doc.setFont('Helvetica', 'normal');
+      const textoRecebi = `Recebi ${info.valorStr} de Vale-transporte, referente ao mês de ${info.nomeMes} pelo que firmo o presente.`;
       const linhasTexto = doc.splitTextToSize(textoRecebi, largura - 2 * margemEsquerda);
       textoLinha(linhasTexto);
       posY += linhaDupla;
@@ -71,14 +70,18 @@ function jsPDF(info) {
       posY += linhaSimples;
       doc.text(`01/${String(info.mesNumerico).padStart(2, '0')}/${info.ano}`, largura / 2, posY, { align: 'center' });
       posY += linhaDupla;
-  
+    };
+
+    // Gera duas vias do recibo
+    for (let i = 0; i < 2; i++) {
+      geraRecibo();
       if (i === 0) {
-        // Espaço extra entre um recibo e outro
+        // Espaço extra entre os recibos
         posY += linhaDupla;
       }
     }
   
     doc.save(`recibo-vale-transporte-${info.empregado}-${String(info.mesNumerico).padStart(2, '0')}-${info.ano}.pdf`);
-  };
+}
   
-  export { jsPDF }; 
+export { jsPDF }; 
