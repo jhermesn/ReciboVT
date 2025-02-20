@@ -1,3 +1,5 @@
+import { template } from "./template/template";
+
 // Constantes para chaves de armazenamento
 const STORAGE_KEYS = {
     empregador: 'recibo_empregador',
@@ -75,13 +77,21 @@ const diasNoMes = (mes, ano) => new Date(ano, mes, 0).getDate();
  * Gera o PDF do recibo utilizando a biblioteca jsPDF.
  */
 const gerarPDF = () => {
-    const empregador = inputs.empregador.value.trim();
-    const empregado = inputs.empregado.value.trim();
     const valorDia = parseFloat(inputs.valorDia.value);
     const diasTrabalhados = parseInt(inputs.diasTrabalhados.value, 10);
     const mesNumerico = parseInt(inputs.mesNumerico.value, 10);
-    const ano = parseInt(inputs.ano.value, 10);
-    const localTrabalhado = inputs.localTrabalhado.value.trim();
+    
+    const info = {
+        valorTotal: valorDia * diasTrabalhados,
+        valorStr: 'R$ ' + info.valorTotal.toFixed(2).replace('.', ','),
+        nomeMes: obterNomeMes(mesNumerico),
+        empregado: inputs.empregado.value.trim(),
+        empregador: inputs.empregador.value.trim(),
+        ano: parseInt(inputs.ano.value, 10),
+        localTrabalhado: inputs.localTrabalhado.value.trim()
+    }
+
+    const document = template(info, style)
 
     // Validação dos campos
     if (
@@ -115,11 +125,12 @@ const gerarPDF = () => {
     let posY = 60;
     const linhaSimples = 20;
     const linhaDupla = 35;
+    
 
     /**
      * Escreve uma ou mais linhas de texto na posição atual.
      * @param {string|string[]} texto - Texto ou array de textos.
-     */
+    */
     const textoLinha = (texto) => {
         if (typeof texto === 'string') {
             doc.text(texto, margemEsquerda, posY);
@@ -131,6 +142,7 @@ const gerarPDF = () => {
             });
         }
     };
+    
 
     /**
      * Escreve um texto centralizado.
@@ -144,46 +156,26 @@ const gerarPDF = () => {
         doc.text(txt, largura / 2, posY, { align: 'center' });
         posY += linhaSimples;
     };
+    
 
-    const textoRecebi = `Recebi ${valorStr} de Vale-transporte, referente ao mês de ${nomeMes} pelo que firmo o presente.`;
 
-    // Gerar duas vias do recibo
     for (let i = 0; i < 2; i++) {
-        doc.setFontSize(24);
-        doc.setFont('Helvetica', 'bold');
-        doc.text('RECIBO', largura / 2, posY, { align: 'center' });
-        posY += linhaDupla;
+        var novaJanela = window.open('', '_blank');
+        // Escreve o conteúdo HTML na nova janela
+        novaJanela.document.open();
+        novaJanela.document.write(conteudoHTML);
+        novaJanela.document.close();
 
-        doc.setFontSize(16);
-        doc.setFont('Helvetica', 'bold');
-        doc.text('Entrega de Vale-Transporte', largura / 2, posY, { align: 'center' });
-        posY += linhaDupla;
-
-        doc.setFontSize(14);
-        doc.setFont('Helvetica', 'bold');
-        textoLinha(`Empregador(a): ${empregador}`);
-        textoLinha(`Empregado(a): ${empregado}`);
-
-        doc.setFont('Helvetica', 'normal');
-        const linhasTexto = doc.splitTextToSize(textoRecebi, largura - 2 * margemEsquerda);
-        textoLinha(linhasTexto);
-        posY += linhaDupla;
-
-        textoCentralizado('________________________________________');
-        textoCentralizado('Assinatura do Empregado');
-        posY += linhaDupla;
-
-        doc.text(localTrabalhado, largura / 2, posY, { align: 'center' });
-        posY += linhaSimples;
-        doc.text(`01/${String(mesNumerico).padStart(2, '0')}/${ano}`, largura / 2, posY, { align: 'center' });
-        posY += linhaDupla;
-
-        if (i === 0) {
-            posY += linhaDupla;
-        }
+        // Aguarda o carregamento completo do conteúdo
+        novaJanela.onload = function() {
+            // Inicia a caixa de diálogo de impressão
+            novaJanela.print();
+            // Fecha a janela após a impressão ou cancelamento
+            novaJanela.onafterprint = function() {
+                novaJanela.close();
+            };
+        };
     }
-
-    doc.save(`recibo-vale-transporte-${empregado}-${String(mesNumerico).padStart(2, '0')}-${ano}.pdf`);
 };
 
 btnGerarPdf.addEventListener('click', gerarPDF);
