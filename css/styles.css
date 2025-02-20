@@ -71,6 +71,12 @@ input[type="number"] {
     color: var(--text-color);
 }
 
+/* Estilos para a Checkbox */
+input[type="checkbox"] {
+    margin-top: 10px; /* Espaçamento acima da checkbox */
+    accent-color: var(--primary-color); /* Cor da checkbox */
+}
+
 /* Estilos dos Botões */
 button {
     padding: 12px;

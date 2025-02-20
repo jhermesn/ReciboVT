@@ -49,6 +49,12 @@
       <label for="localTrabalhado">Local (Cidade, Estado):</label>
       <input type="text" id="localTrabalhado" required />
     </div>
+    <div class="form-group">
+      <label for="customizacaoEscala">
+        <input type="checkbox" id="customizacaoEscala" />
+        Customizar Escala
+      </label>
+    </div>
     <button type="button" id="btnGerarPdf">Gerar PDF</button>
   </form>
 </main>
@@ -62,6 +68,6 @@
 </footer>
 <!-- Inclusão da biblioteca jsPDF -->
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-<script src="js/main.js"></script>
+<script type="module" src="js/main.js"></script>
 </body>
 </html>

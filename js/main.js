@@ -1,4 +1,4 @@
-import { template } from "./template/template";
+import { template } from './htmlTemplate/template.js';
 
 // Constantes para chaves de armazenamento
 const STORAGE_KEYS = {
@@ -93,6 +93,7 @@ const gerarPDF = () => {
         nomeMes: obterNomeMes(mesNumerico),
         empregado: inputs.empregado.value.trim(),
         empregador: inputs.empregador.value.trim(),
+        mesNumerico: mesNumerico,
         ano: ano,
         localTrabalhado: inputs.localTrabalhado.value.trim()
     };

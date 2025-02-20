@@ -43,15 +43,17 @@ function template (info, styles) {
             }
             .signature {
             margin-top: 30px;
-            text-align: left;
+            text-align: center;
             }
             .signature p {
             border-top: 1px solid #000;
             padding-top: 5px;
             width: 300px;
+            text-align: center;
             }
             .footer {
             margin-top: 20px;
+            text-align: center;
             }
         </style>
         </head>
@@ -61,11 +63,10 @@ function template (info, styles) {
             <div class="receipt">
             <h1>RECIBO</h1>
             <h2>Entrega de Vale-Transporte</h2>
-            <p><strong>Empregador(a):</strong> ${info.Empregador}</p>
-            <p><strong>Empregado(a):</strong> ${info.Empregado}</p>
+            <p><strong>Empregador(a):</strong> ${info.empregador}</p>
+            <p><strong>Empregado(a):</strong> ${info.empregado}</p>
             <p>Recebi ${info.valorStr} de Vale-transporte, referente ao mês de ${info.nomeMes} pelo que firmo o presente.</p>
             <div class="signature">
-                <p>________________________________________'</p>
                 <p>Assinatura do Empregado</p>
             </div>
             <div class="footer">
@@ -78,11 +79,10 @@ function template (info, styles) {
             <div class="receipt">
             <h1>RECIBO</h1>
             <h2>Entrega de Vale-Transporte</h2>
-            <p><strong>Empregador(a):</strong> ${info.Empregador}</p>
-            <p><strong>Empregado(a):</strong> ${info.Empregado}</p>
+            <p><strong>Empregador(a):</strong> ${info.empregador}</p>
+            <p><strong>Empregado(a):</strong> ${info.empregado}</p>
             <p>Recebi ${info.valorStr} de Vale-transporte, referente ao mês de ${info.nomeMes} pelo que firmo o presente.</p>
             <div class="signature">
-                <p>________________________________________'</p>
                 <p>Assinatura do Empregado</p>
             </div>
             <div class="footer">
