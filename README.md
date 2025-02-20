@@ -11,7 +11,7 @@ Este projeto gera um **recibo de vale-transporte** baseado no [modelo oficial do
 4. [Estrutura de Pastas](#estrutura-de-pastas)
 5. [Tecnologias Utilizadas](#tecnologias-utilizadas)
 6. [Referências](#referências)
-7. [Contribuidores](#contribuidores)
+7. [Contribuidores](#contribuidores-(muito-obrigado!-⭐))
 
 ---
 
