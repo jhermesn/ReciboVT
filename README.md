@@ -58,4 +58,4 @@ Este projeto facilita a geração de **recibos de vale-transporte**, permitindo 
 
 ---  
 
-© 2025 - Disponível em [Gerador de Recibo de Vale-Transporte](https://jhermesn.dev/ReciboVT).
+© 2025 Jorge Hermes e Matheus Freire - Disponível em [Gerador de Recibo de Vale-Transporte](https://jhermesn.dev/ReciboVT).
