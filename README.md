@@ -11,6 +11,7 @@ Este projeto gera um **recibo de vale-transporte** baseado no [modelo oficial do
 4. [Estrutura de Pastas](#estrutura-de-pastas)
 5. [Tecnologias Utilizadas](#tecnologias-utilizadas)
 6. [Referências](#referências)
+7. [Contribuidores](#Contribuidores (Muito obrigado! ⭐))
 
 ---
 
@@ -58,4 +59,9 @@ Este projeto facilita a geração de **recibos de vale-transporte**, permitindo 
 
 ---  
 
-© 2025 Jorge Hermes e Matheus Freire - Disponível em [Gerador de Recibo de Vale-Transporte](https://jhermesn.dev/ReciboVT).
+## Contribuidores (Muito obrigado! ⭐)
+- [Matheus William Freire](https://github.com/MatKerbino)
+
+---
+
+© 2025 [Jorge Hermes](https://jhermesn.dev) - Disponível em [Gerador de Recibo de Vale-Transporte](https://jhermesn.dev/ReciboVT).
