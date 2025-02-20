@@ -73,6 +73,23 @@ function template (info, styles) {
                 <p>01/${String(info.mesNumerico).padStart(2, '0')}/${info.ano}</p>
             </div>
             </div>
+            
+            <!-- Segundo Recibo -->
+            <div class="receipt">
+            <h1>RECIBO</h1>
+            <h2>Entrega de Vale-Transporte</h2>
+            <p><strong>Empregador(a):</strong> ${info.Empregador}</p>
+            <p><strong>Empregado(a):</strong> ${info.Empregado}</p>
+            <p>Recebi ${info.valorStr} de Vale-transporte, referente ao mês de ${info.nomeMes} pelo que firmo o presente.</p>
+            <div class="signature">
+                <p>________________________________________'</p>
+                <p>Assinatura do Empregado</p>
+            </div>
+            <div class="footer">
+                <p>${info.localTrabalhado}</p>
+                <p>01/${String(info.mesNumerico).padStart(2, '0')}/${info.ano}</p>
+            </div>
+            </div>
         </div>
         </body>
     </html>
