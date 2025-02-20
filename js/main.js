@@ -1,3 +1,6 @@
+import { template } from './htmlTemplate/template.js';
+import { jsPDF } from './jsPdf/service.js';
+
 // Constantes para chaves de armazenamento
 const STORAGE_KEYS = {
     empregador: 'recibo_empregador',
@@ -72,22 +75,37 @@ const obterNomeMes = (mes) => {
 const diasNoMes = (mes, ano) => new Date(ano, mes, 0).getDate();
 
 /**
- * Gera o PDF do recibo utilizando a biblioteca jsPDF.
+ * Gera o PDF do recibo.
  */
 const gerarPDF = () => {
-    const empregador = inputs.empregador.value.trim();
-    const empregado = inputs.empregado.value.trim();
+    // Extração dos valores dos inputs
     const valorDia = parseFloat(inputs.valorDia.value);
     const diasTrabalhados = parseInt(inputs.diasTrabalhados.value, 10);
     const mesNumerico = parseInt(inputs.mesNumerico.value, 10);
     const ano = parseInt(inputs.ano.value, 10);
-    const localTrabalhado = inputs.localTrabalhado.value.trim();
+
+    // Cálculo do valor total
+    const valorTotal = valorDia * diasTrabalhados;
+
+    // Criação do objeto de informações
+    const info = {
+        valorTotal: valorTotal,
+        valorStr: 'R$ ' + valorTotal.toFixed(2).replace('.', ','),
+        nomeMes: obterNomeMes(mesNumerico),
+        empregado: inputs.empregado.value.trim(),
+        empregador: inputs.empregador.value.trim(),
+        mesNumerico: mesNumerico,
+        ano: ano,
+        localTrabalhado: inputs.localTrabalhado.value.trim()
+    };
+
+    const style = 0;
 
     // Validação dos campos
     if (
-        !empregador || !empregado || !localTrabalhado ||
+        !info.empregador || !info.empregado || !info.localTrabalhado ||
         isNaN(valorDia) || isNaN(diasTrabalhados) ||
-        isNaN(mesNumerico) || isNaN(ano)
+        isNaN(mesNumerico) || isNaN(info.ano)
     ) {
         alert('Preencha todos os campos corretamente.');
         return;
@@ -96,94 +114,34 @@ const gerarPDF = () => {
         alert('Mês inválido.');
         return;
     }
-    if (ano < 2000 || ano > 2100) {
+    if (info.ano < 2000 || info.ano > 2100) {
         alert('Ano fora do intervalo permitido (2000-2100).');
         return;
     }
-    if (diasTrabalhados < 1 || diasTrabalhados > diasNoMes(mesNumerico, ano)) {
+    if (diasTrabalhados < 1 || diasTrabalhados > diasNoMes(mesNumerico, info.ano)) {
         alert('Número de dias trabalhados inválido para o mês informado.');
         return;
     }
 
-    const valorTotal = valorDia * diasTrabalhados;
-    const valorStr = 'R$ ' + valorTotal.toFixed(2).replace('.', ',');
-    const nomeMes = obterNomeMes(mesNumerico);
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
-    const largura = doc.internal.pageSize.getWidth();
-    const margemEsquerda = 50;
-    let posY = 60;
-    const linhaSimples = 20;
-    const linhaDupla = 35;
+    const checkbox = document.getElementById('customizacaoEscala');
+    if (checkbox.checked && checkbox) {
+        // Gera o documento HTML utilizando o template
+        const documentContent = template(info, style);
+        var novaJanela = window.open('', '_blank');
+        novaJanela.document.open();
+        novaJanela.document.write(documentContent);
+        novaJanela.document.close();
 
-    /**
-     * Escreve uma ou mais linhas de texto na posição atual.
-     * @param {string|string[]} texto - Texto ou array de textos.
-     */
-    const textoLinha = (texto) => {
-        if (typeof texto === 'string') {
-            doc.text(texto, margemEsquerda, posY);
-            posY += linhaSimples;
-        } else if (Array.isArray(texto)) {
-            texto.forEach((linha) => {
-                doc.text(linha, margemEsquerda, posY);
-                posY += linhaSimples;
-            });
-        }
-    };
-
-    /**
-     * Escreve um texto centralizado.
-     * @param {string} txt - Texto a ser centralizado.
-     * @param {number} [tamanhoFonte=14] - Tamanho da fonte.
-     * @param {string} [estilo="normal"] - Estilo da fonte.
-     */
-    const textoCentralizado = (txt, tamanhoFonte = 14, estilo = 'normal') => {
-        doc.setFontSize(tamanhoFonte);
-        doc.setFont('Helvetica', estilo);
-        doc.text(txt, largura / 2, posY, { align: 'center' });
-        posY += linhaSimples;
-    };
-
-    const textoRecebi = `Recebi ${valorStr} de Vale-transporte, referente ao mês de ${nomeMes} pelo que firmo o presente.`;
-
-    // Gerar duas vias do recibo
-    for (let i = 0; i < 2; i++) {
-        doc.setFontSize(24);
-        doc.setFont('Helvetica', 'bold');
-        doc.text('RECIBO', largura / 2, posY, { align: 'center' });
-        posY += linhaDupla;
-
-        doc.setFontSize(16);
-        doc.setFont('Helvetica', 'bold');
-        doc.text('Entrega de Vale-Transporte', largura / 2, posY, { align: 'center' });
-        posY += linhaDupla;
-
-        doc.setFontSize(14);
-        doc.setFont('Helvetica', 'bold');
-        textoLinha(`Empregador(a): ${empregador}`);
-        textoLinha(`Empregado(a): ${empregado}`);
-
-        doc.setFont('Helvetica', 'normal');
-        const linhasTexto = doc.splitTextToSize(textoRecebi, largura - 2 * margemEsquerda);
-        textoLinha(linhasTexto);
-        posY += linhaDupla;
-
-        textoCentralizado('________________________________________');
-        textoCentralizado('Assinatura do Empregado');
-        posY += linhaDupla;
-
-        doc.text(localTrabalhado, largura / 2, posY, { align: 'center' });
-        posY += linhaSimples;
-        doc.text(`01/${String(mesNumerico).padStart(2, '0')}/${ano}`, largura / 2, posY, { align: 'center' });
-        posY += linhaDupla;
-
-        if (i === 0) {
-            posY += linhaDupla;
-        }
+        // Após o carregamento, abre a caixa de impressão e fecha a janela
+        novaJanela.onload = function() {
+            novaJanela.print();
+            novaJanela.onafterprint = function() {
+                novaJanela.close();
+            };
+        };
+    } else {
+        jsPDF(info);
     }
-
-    doc.save(`recibo-vale-transporte-${empregado}-${String(mesNumerico).padStart(2, '0')}-${ano}.pdf`);
 };
 
 btnGerarPdf.addEventListener('click', gerarPDF);
