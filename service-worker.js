@@ -1,34 +1,34 @@
-const CACHE_NAME = 'recibo-vale-transporte-v1';
-const ASSETS_TO_CACHE = [
+const NOME_CACHE = 'recibo-vale-transporte-v1'
+const ARQUIVOS_CACHE = [
     '/',
     '/index.html',
-    '/css/styles.css',
-    '/js/main.js',
+    '/css/estilos.css',
+    '/js/principal.js',
     '/assets/favicon.ico'
-];
+]
 
-self.addEventListener('install', (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
-    );
-});
+self.addEventListener('install', evento => {
+    evento.waitUntil(
+        caches.open(NOME_CACHE).then(cache => cache.addAll(ARQUIVOS_CACHE))
+    )
+})
 
-self.addEventListener('activate', (event) => {
-    event.waitUntil(
-        caches.keys().then((keys) =>
+self.addEventListener('activate', evento => {
+    evento.waitUntil(
+        caches.keys().then(chaves =>
             Promise.all(
-                keys.map((key) => {
-                    if (key !== CACHE_NAME) {
-                        return caches.delete(key);
+                chaves.map(chave => {
+                    if (chave !== NOME_CACHE) {
+                        return caches.delete(chave)
                     }
                 })
             )
         )
-    );
-});
+    )
+})
 
-self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request).then((response) => response || fetch(event.request))
-    );
-});
+self.addEventListener('fetch', evento => {
+    evento.respondWith(
+        caches.match(evento.request).then(resposta => resposta || fetch(evento.request))
+    )
+})

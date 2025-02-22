@@ -1,14 +1,14 @@
 :root {
-    --bg-color: #000;
-    --text-color: #fff;
-    --primary-color: #333;
-    --primary-hover: #555;
-    --border-color: #444;
-    --input-bg: #111;
-    --input-field-bg: #222;
-    --font-family: 'Inter', sans-serif;
-    --max-width: 600px;
-    --spacing-unit: 20px;
+    --cor-fundo: #000;
+    --cor-texto: #fff;
+    --cor-primaria: #333;
+    --cor-primaria-hover: #555;
+    --cor-borda: #444;
+    --fundo-input: #111;
+    --fundo-campo: #222;
+    --fonte-principal: 'Inter', sans-serif;
+    --largura-max: 600px;
+    --espacamento: 20px;
 }
 
 *,
@@ -19,10 +19,10 @@
 
 body {
     margin: 0;
-    padding: var(--spacing-unit);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--font-family), serif;
+    padding: var(--espacamento);
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-family: var(--fonte-principal), serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,11 +31,11 @@ body {
 header {
     background-color: transparent;
     width: 100%;
-    max-width: var(--max-width);
+    max-width: var(--largura-max);
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: var(--spacing-unit);
+    margin-bottom: var(--espacamento);
 }
 
 header img {
@@ -46,17 +46,17 @@ header img {
 
 main {
     width: 100%;
-    max-width: var(--max-width);
+    max-width: var(--largura-max);
 }
 
 footer {
     text-align: center;
-    margin-top: calc(var(--spacing-unit) * 2);
+    margin-top: calc(var(--espacamento) * 2);
     font-size: 0.9rem;
 }
 
 footer a {
-    color: var(--text-color);
+    color: var(--cor-texto);
     text-decoration: underline;
 }
 
@@ -67,14 +67,14 @@ footer a:hover {
 form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-unit);
-    background-color: var(--input-bg);
-    padding: calc(var(--spacing-unit) * 1.5);
+    gap: var(--espacamento);
+    background-color: var(--fundo-input);
+    padding: calc(var(--espacamento) * 1.5);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(255, 255, 255, 0.05);
 }
 
-.form-group {
+.grupo-form {
     display: flex;
     flex-direction: column;
 }
@@ -88,10 +88,10 @@ input[type="text"],
 input[type="number"] {
     padding: 10px;
     font-size: 1rem;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--cor-borda);
     border-radius: 4px;
-    background-color: var(--input-field-bg);
-    color: var(--text-color);
+    background-color: var(--fundo-campo);
+    color: var(--cor-texto);
 }
 
 button {
@@ -100,14 +100,14 @@ button {
     font-weight: 600;
     border: none;
     border-radius: 4px;
-    background-color: var(--primary-color);
+    background-color: var(--cor-primaria);
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: var(--primary-hover);
+    background-color: var(--cor-primaria-hover);
 }
 
 @media (max-width: 600px) {
