@@ -28,6 +28,7 @@ function gerarModelo(info) {
           font-family: Arial, sans-serif;
           margin: 20px;
           background: #f7f7f7;
+          color: #000000;
         }
         .container {
           max-width: 650px;
