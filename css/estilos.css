@@ -29,7 +29,6 @@ body {
 }
 
 header {
-    background-color: transparent;
     width: 100%;
     max-width: var(--largura-max);
     display: flex;

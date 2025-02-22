@@ -77,6 +77,7 @@ function gerarPDF() {
         anoAtual,
         local: entradas.localTrabalhado.value.trim()
     }
+
     if (
         !informacoes.empregador ||
         !informacoes.empregado ||
@@ -101,13 +102,19 @@ function gerarPDF() {
         alert('Número de dias trabalhados inválido para o mês informado.')
         return
     }
+
     if (dispositivoMovel()) {
         const { jsPDF } = window.jspdf
-        const doc = new jsPDF()
+        const doc = new jsPDF('p', 'pt', 'a4')
+
         doc.html(gerarModelo(informacoes), {
-            callback: pdf => {
-                pdf.save('recibo-vale-transporte.pdf')
-            }
+            callback: (docFinal) => {
+                docFinal.save('recibo-vale-transporte.pdf')
+            },
+            x: 10,
+            y: 10,
+            width: 600,
+            windowWidth: 800
         })
     } else {
         const conteudo = gerarModelo(informacoes)

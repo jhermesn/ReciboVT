@@ -61,12 +61,12 @@ function gerarModelo(info) {
           margin-top: 30px;
           display: flex;
           justify-content: center;
-          text-align: center;
         }
         .assinatura p {
           border-top: 1px solid #000;
           padding-top: 5px;
           width: 300px;
+          text-align: center;
         }
         .rodape {
           margin-top: 20px;
