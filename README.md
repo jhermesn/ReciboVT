@@ -26,7 +26,6 @@ A pasta principal contém arquivos essenciais de configuração, folha de estilo
 - [Modelo Oficial GOV.BR](https://www.gov.br/esocial/pt-br/empregador-domestico/modelos-de-documentos/modelo-recibo-vale-transporte.doc)
 
 ## Contribuidores
-- [Jorge Hermes](https://jhermesn.dev)
 - [Matheus William Freire](https://github.com/MatKerbino)
 
-© 2025 Jorge Hermes
+© 2025 [Jorge Hermes](https://jhermesn.dev)
