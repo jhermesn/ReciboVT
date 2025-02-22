@@ -1,10 +1,10 @@
-const NOME_CACHE = 'recibo-vale-transporte-v1'
+const NOME_CACHE = 'recibo-vale-transporte-v2'
 const ARQUIVOS_CACHE = [
-    '/',
-    '/index.html',
-    '/css/estilos.css',
-    '/js/principal.js',
-    '/assets/favicon.ico'
+    './',
+    './index.html',
+    './css/estilos.css',
+    './js/principal.js',
+    './assets/favicon.ico'
 ]
 
 self.addEventListener('install', evento => {

@@ -28,4 +28,9 @@ A pasta principal contém arquivos essenciais de configuração, folha de estilo
 ## Contribuidores
 - [Matheus William Freire](https://github.com/MatKerbino)
 
+## Licença
+Distribuído sob a licença MIT. Veja [LICENSE](LICENSE) para mais informações.
+
+---
+
 © 2025 [Jorge Hermes](https://jhermesn.dev)

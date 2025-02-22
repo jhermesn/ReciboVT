@@ -21,6 +21,7 @@ const entradas = {
 }
 
 const botaoGerarPdf = document.getElementById('botaoGerarPdf')
+const areaParaGerar = document.getElementById('areaParaGerar')
 
 function carregarArmazenamento() {
     Object.keys(entradas).forEach(chave => {
@@ -57,17 +58,13 @@ function diasNoMes(mes, ano) {
     return new Date(ano, mes, 0).getDate()
 }
 
-function dispositivoMovel() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-}
-
-function gerarPDF() {
+function dadosRecibo() {
     const valorDia = parseFloat(entradas.valorDia.value)
     const diasTrab = parseInt(entradas.diasTrabalhados.value, 10)
     const mesNum = parseInt(entradas.mesNumerico.value, 10)
     const anoAtual = parseInt(entradas.ano.value, 10)
     const total = valorDia * diasTrab
-    const informacoes = {
+    return {
         total,
         totalStr: 'R$ ' + total.toFixed(2).replace('.', ','),
         mesNome: nomeDoMes(mesNum),
@@ -77,58 +74,44 @@ function gerarPDF() {
         anoAtual,
         local: entradas.localTrabalhado.value.trim()
     }
+}
 
-    if (
-        !informacoes.empregador ||
-        !informacoes.empregado ||
-        !informacoes.local ||
-        isNaN(valorDia) ||
-        isNaN(diasTrab) ||
-        isNaN(mesNum) ||
-        isNaN(anoAtual)
-    ) {
+function validar(d) {
+    if (!d.empregador || !d.empregado || !d.local || isNaN(d.total) || isNaN(d.mesNum) || isNaN(d.anoAtual)) {
+        return false
+    }
+    if (d.mesNum < 1 || d.mesNum > 12) {
+        return false
+    }
+    if (d.anoAtual < 2000 || d.anoAtual > 2100) {
+        return false
+    }
+    if (d.total <= 0 || entradas.diasTrabalhados.value < 1 || entradas.diasTrabalhados.value > diasNoMes(d.mesNum, d.anoAtual)) {
+        return false
+    }
+    return true
+}
+
+function gerarPDF() {
+    const info = dadosRecibo()
+    if (!validar(info)) {
         alert('Preencha todos os campos corretamente.')
         return
     }
-    if (mesNum < 1 || mesNum > 12) {
-        alert('Mês inválido.')
-        return
-    }
-    if (anoAtual < 2000 || anoAtual > 2100) {
-        alert('Ano fora do intervalo permitido (2000-2100).')
-        return
-    }
-    if (diasTrab < 1 || diasTrab > diasNoMes(mesNum, anoAtual)) {
-        alert('Número de dias trabalhados inválido para o mês informado.')
-        return
-    }
+    areaParaGerar.innerHTML = gerarModelo(info)
 
-    if (dispositivoMovel()) {
-        const { jsPDF } = window.jspdf
-        const doc = new jsPDF('p', 'pt', 'a4')
-
-        doc.html(gerarModelo(informacoes), {
-            callback: (docFinal) => {
-                docFinal.save('recibo-vale-transporte.pdf')
-            },
-            x: 10,
-            y: 10,
-            width: 600,
-            windowWidth: 800
-        })
-    } else {
-        const conteudo = gerarModelo(informacoes)
-        const janelaNova = window.open('', '_blank')
-        janelaNova.document.open()
-        janelaNova.document.write(conteudo)
-        janelaNova.document.close()
-        janelaNova.onload = () => {
-            janelaNova.print()
-            janelaNova.onafterprint = () => {
-                janelaNova.close()
-            }
-        }
-    }
+    const { jsPDF } = window.jspdf
+    const doc = new jsPDF('p', 'pt', 'a4')
+    html2canvas(areaParaGerar, {
+        backgroundColor: '#ffffff',
+        scale: 3
+    }).then(canvas => {
+        const larguraPagina = doc.internal.pageSize.getWidth()
+        const alturaPagina = doc.internal.pageSize.getHeight()
+        const imgData = canvas.toDataURL('image/png')
+        doc.addImage(imgData, 'PNG', 0, 0, larguraPagina, alturaPagina)
+        doc.save(`recibo-vale-transporte-${info.empregado}-${String(info.mesNum).padStart(2, '0')}-${info.anoAtual}.pdf`)
+    })
 }
 
 botaoGerarPdf.addEventListener('click', gerarPDF)
