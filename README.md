@@ -26,7 +26,7 @@ Este projeto facilita a geração de **recibos de vale-transporte**, permitindo 
 - **Validação Básica**: Verifica se os valores estão dentro de faixas plausíveis (mês entre 1 e 12, ano entre 2000 e 2100, etc.).  
 - **Duas Vias na Mesma Folha**: As duas vias do recibo são geradas na mesma página para reduzir desperdício de papel.  
 - **Persistência Local**: Os campos preenchidos são armazenados em _localStorage_, evitando retrabalho ao recarregar a página.  
-- **Exportação em PDF**: Gera e faz download do PDF utilizando a biblioteca [jsPDF](https://github.com/parallax/jsPDF).
+- **Exportação em PDF**: Gera o PDF automaticamente após o preenchimento e validação dos campos.
 
 ---
 
@@ -35,10 +35,8 @@ Este projeto facilita a geração de **recibos de vale-transporte**, permitindo 
    ```bash
    git clone https://github.com/jhermesn/ReciboVT.git
    ```
-2. **Instalar ou atualizar dependências**:
-    - O projeto usa apenas [jsPDF](https://github.com/parallax/jsPDF) via CDN, portanto não há necessidade de instalação local.
 
-3. **Abrir o arquivo `index.html`** no navegador:
+2. **Abrir o arquivo `index.html`** no navegador:
     - Preencha os campos de *Empregador(a)*, *Empregado(a)*, *Valor (R$) por dia*, *Dias trabalhados*, *Mês* e *Ano*.
     - Clique em **Gerar PDF**.
     - O recibo será criado e baixado automaticamente no formato PDF.
@@ -48,15 +46,12 @@ Este projeto facilita a geração de **recibos de vale-transporte**, permitindo 
 ## Tecnologias Utilizadas
 - **HTML5 e CSS3**: Marcação e estilos.
 - **JavaScript**: Lógica de front-end para validação e persistência (_localStorage_).
-- **[jsPDF](https://github.com/parallax/jsPDF)**: Geração e download de arquivos PDF.
 - **[Modelo do GOV.BR](https://www.gov.br/esocial/pt-br/empregador-domestico/modelos-de-documentos/modelo-recibo-vale-transporte.doc)** para criação do recibo.
 
 ---
 
 ## Referências
 - **eSocial (GOV.BR)**: [Modelo Oficial de Recibo de Vale-Transporte](https://www.gov.br/esocial/pt-br/empregador-domestico/modelos-de-documentos/modelo-recibo-vale-transporte.doc)
-- **jsPDF**: [Parallax / jsPDF](https://github.com/parallax/jsPDF)
-
 ---  
 
 ## Contribuidores - Muito obrigado!

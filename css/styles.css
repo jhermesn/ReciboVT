@@ -1,22 +1,22 @@
-/* Variáveis Globais */
 :root {
-    --bg-color: #121212;
-    --text-color: #e0e0e0;
-    --primary-color: #383838;
-    --primary-hover: #535353;
-    --border-color: #424242;
-    --input-bg: #1e1e1e;
+    --bg-color: #000;
+    --text-color: #fff;
+    --primary-color: #333;
+    --primary-hover: #555;
+    --border-color: #444;
+    --input-bg: #111;
+    --input-field-bg: #222;
     --font-family: 'Inter', sans-serif;
     --max-width: 600px;
     --spacing-unit: 20px;
 }
 
-/* Reset & Tamanho das Box */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
-/* Estilos Base */
 body {
     margin: 0;
     padding: var(--spacing-unit);
@@ -28,19 +28,42 @@ body {
     align-items: center;
 }
 
-/* Formato */
-header, main, footer {
+header {
+    background-color: transparent;
+    width: 100%;
+    max-width: var(--max-width);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: var(--spacing-unit);
+}
+
+header img {
+    height: 48px;
+    width: 48px;
+    object-fit: contain;
+}
+
+main {
     width: 100%;
     max-width: var(--max-width);
 }
 
-header h1 {
+footer {
     text-align: center;
-    margin-bottom: var(--spacing-unit);
-    font-size: 2rem;
+    margin-top: calc(var(--spacing-unit) * 2);
+    font-size: 0.9rem;
 }
 
-/* Estilos do Formulário */
+footer a {
+    color: var(--text-color);
+    text-decoration: underline;
+}
+
+footer a:hover {
+    text-decoration: none;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -48,7 +71,7 @@ form {
     background-color: var(--input-bg);
     padding: calc(var(--spacing-unit) * 1.5);
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.05);
 }
 
 .form-group {
@@ -67,50 +90,10 @@ input[type="number"] {
     font-size: 1rem;
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    background-color: #2c2c2c;
+    background-color: var(--input-field-bg);
     color: var(--text-color);
 }
 
-/* Estilos para a Checkbox */
-input[type="checkbox"] {
-    display: none; 
-}
-
-.custom-checkbox {
-    width: 24px; 
-    height: 24px; 
-    background-color: #2c2c2c; 
-    border: 2px solid var(--border-color); 
-    border-radius: 4px; 
-    display: inline-block; 
-    position: relative; 
-    cursor: pointer; 
-    text-align: center;
-}
-
-.custom-checkbox::after {
-    content: ""; 
-    position: absolute;
-    top: 10%;
-    left: 12%;
-    width: 16px; 
-    height: 16px; 
-    background-color: transparent; 
-    border: 2px solid transparent; 
-    transform: rotate(45deg); 
-}
-
-input[type="checkbox"]:checked + .custom-checkbox::after {
-    content: ""; 
-    background-color: transparent; 
-    border: 2px solid #fff; 
-}
-
-input[type="checkbox"]:checked + .custom-checkbox {
-    background-color: #383838; 
-}
-
-/* Estilos dos Botões */
 button {
     padding: 12px;
     font-size: 1.1rem;
@@ -127,23 +110,6 @@ button:hover {
     background-color: var(--primary-hover);
 }
 
-/* Estilos do Footer */
-footer {
-    text-align: center;
-    margin-top: calc(var(--spacing-unit) * 2);
-    font-size: 0.9rem;
-}
-
-footer a {
-    color: var(--primary-color);
-    text-decoration: none;
-}
-
-footer a:hover {
-    text-decoration: underline;
-}
-
-/* Responsividade */
 @media (max-width: 600px) {
     body {
         padding: 10px;

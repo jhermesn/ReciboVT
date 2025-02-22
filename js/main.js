@@ -1,7 +1,5 @@
 import { template } from './htmlTemplate/template.js';
-import { jsPDF } from './jsPdf/service.js';
 
-// Constantes para chaves de armazenamento
 const STORAGE_KEYS = {
     empregador: 'recibo_empregador',
     empregado: 'recibo_empregado',
@@ -12,7 +10,6 @@ const STORAGE_KEYS = {
     localTrabalhado: 'recibo_local'
 };
 
-// Referências aos elementos de entrada
 const inputs = {
     empregador: document.getElementById('empregador'),
     empregado: document.getElementById('empregado'),
@@ -22,25 +19,20 @@ const inputs = {
     ano: document.getElementById('ano'),
     localTrabalhado: document.getElementById('localTrabalhado')
 };
+
 const btnGerarPdf = document.getElementById('btnGerarPdf');
 
-/**
- * Carrega os dados salvos no Local Storage.
- */
-const carregarLocalStorage = () => {
+function carregarLocalStorage() {
     Object.keys(inputs).forEach((key) => {
         const savedValue = localStorage.getItem(STORAGE_KEYS[key]);
         if (savedValue) {
             inputs[key].value = savedValue;
         }
     });
-};
+}
 
 window.addEventListener('load', carregarLocalStorage);
 
-/**
- * Atualiza o Local Storage sempre que um campo for alterado.
- */
 Object.values(inputs).forEach((input) => {
     input.addEventListener('change', () => {
         localStorage.setItem(STORAGE_KEYS.empregador, inputs.empregador.value.trim());
@@ -53,59 +45,44 @@ Object.values(inputs).forEach((input) => {
     });
 });
 
-/**
- * Retorna o nome do mês em português.
- * @param {number} mes - Número do mês (1-12).
- * @returns {string} Nome do mês.
- */
-const obterNomeMes = (mes) => {
+function obterNomeMes(mes) {
     const nomes = [
         'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
         'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
     ];
     return nomes[mes - 1] || '';
-};
+}
 
-/**
- * Calcula o número de dias no mês para um dado ano.
- * @param {number} mes - Mês (1-12).
- * @param {number} ano - Ano.
- * @returns {number} Quantidade de dias.
- */
-const diasNoMes = (mes, ano) => new Date(ano, mes, 0).getDate();
+function diasNoMes(mes, ano) {
+    return new Date(ano, mes, 0).getDate();
+}
 
-/**
- * Gera o PDF do recibo.
- */
-const gerarPDF = () => {
-    // Extração dos valores dos inputs
+function gerarPDF() {
     const valorDia = parseFloat(inputs.valorDia.value);
     const diasTrabalhados = parseInt(inputs.diasTrabalhados.value, 10);
     const mesNumerico = parseInt(inputs.mesNumerico.value, 10);
     const ano = parseInt(inputs.ano.value, 10);
-
-    // Cálculo do valor total
     const valorTotal = valorDia * diasTrabalhados;
 
-    // Criação do objeto de informações
     const info = {
-        valorTotal: valorTotal,
+        valorTotal,
         valorStr: 'R$ ' + valorTotal.toFixed(2).replace('.', ','),
         nomeMes: obterNomeMes(mesNumerico),
         empregado: inputs.empregado.value.trim(),
         empregador: inputs.empregador.value.trim(),
-        mesNumerico: mesNumerico,
-        ano: ano,
+        mesNumerico,
+        ano,
         localTrabalhado: inputs.localTrabalhado.value.trim()
     };
 
-    const style = 0;
-
-    // Validação dos campos
     if (
-        !info.empregador || !info.empregado || !info.localTrabalhado ||
-        isNaN(valorDia) || isNaN(diasTrabalhados) ||
-        isNaN(mesNumerico) || isNaN(info.ano)
+        !info.empregador ||
+        !info.empregado ||
+        !info.localTrabalhado ||
+        isNaN(valorDia) ||
+        isNaN(diasTrabalhados) ||
+        isNaN(mesNumerico) ||
+        isNaN(info.ano)
     ) {
         alert('Preencha todos os campos corretamente.');
         return;
@@ -123,38 +100,26 @@ const gerarPDF = () => {
         return;
     }
 
-    const checkbox = document.getElementById('customizacaoEscala');
-    if (checkbox.checked && checkbox) {
-        // Gera o documento HTML utilizando o template
-        const documentContent = template(info, style);
-        var novaJanela = window.open('', '_blank');
-        novaJanela.document.open();
-        novaJanela.document.write(documentContent);
-        novaJanela.document.close();
-
-        // Após o carregamento, abre a caixa de impressão e fecha a janela
-        novaJanela.onload = function() {
-            novaJanela.print();
-            novaJanela.onafterprint = function() {
-                novaJanela.close();
-            };
+    // Always uses the HTML template approach
+    const documentContent = template(info);
+    const novaJanela = window.open('', '_blank');
+    novaJanela.document.open();
+    novaJanela.document.write(documentContent);
+    novaJanela.document.close();
+    novaJanela.onload = () => {
+        novaJanela.print();
+        novaJanela.onafterprint = () => {
+            novaJanela.close();
         };
-    } else {
-        jsPDF(info);
-    }
-};
+    };
+}
 
 btnGerarPdf.addEventListener('click', gerarPDF);
 
-// Registro do Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
-            .then((registration) =>
-                console.log('Service Worker registrado com escopo:', registration.scope)
-            )
-            .catch((error) =>
-                console.error('Falha ao registrar o Service Worker:', error)
-            );
+            .then(reg => console.log('Service Worker registrado:', reg.scope))
+            .catch(err => console.error('Falha ao registrar Service Worker:', err));
     });
 }

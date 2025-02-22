@@ -17,7 +17,7 @@
 </head>
 <body>
 <header>
-  <h1>Gerador de Recibo de Vale-Transporte</h1>
+  <img src="assets/favicon-192.png" alt="Ícone do Sistema" />
 </header>
 <main>
   <form id="reciboForm">
@@ -49,26 +49,16 @@
       <label for="localTrabalhado">Local (Cidade, Estado):</label>
       <input type="text" id="localTrabalhado" required />
     </div>
-    <div class="form-group">
-      <label for="customizacaoEscala">
-        <input type="checkbox" id="customizacaoEscala" />
-        <span class="custom-checkbox"></span> 
-        Customizar
-      </label>
-    </div>
     <button type="button" id="btnGerarPdf">Gerar PDF</button>
   </form>
 </main>
 <footer>
   <p>
     &copy; 2025
-    <a href="https://jhermesn.dev/" target="_blank" rel="noopener noreferrer"
-    >Jorge Hermes</a
-    >. Todos os Direitos Reservados.
+    <a href="https://jhermesn.dev/" target="_blank" rel="noopener noreferrer">Jorge Hermes</a>.
+    Todos os Direitos Reservados.
   </p>
 </footer>
-<!-- Inclusão da biblioteca jsPDF -->
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <script type="module" src="js/main.js"></script>
 </body>
 </html>
