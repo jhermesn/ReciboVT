@@ -5,6 +5,7 @@ const CHAVES = {
     empregado: 'recibo_empregado',
     valorDia: 'recibo_valorDia',
     diasTrabalhados: 'recibo_diasTrabalhados',
+    diaEmissao: 'recibo_diaEmissao',
     mesNumerico: 'recibo_mesNumerico',
     ano: 'recibo_ano',
     localTrabalhado: 'recibo_local'
@@ -15,6 +16,7 @@ const entradas = {
     empregado: document.getElementById('empregado'),
     valorDia: document.getElementById('valorDia'),
     diasTrabalhados: document.getElementById('diasTrabalhados'),
+    diaEmissao: document.getElementById('diaEmissao'),
     mesNumerico: document.getElementById('mesNumerico'),
     ano: document.getElementById('ano'),
     localTrabalhado: document.getElementById('localTrabalhado')
@@ -40,6 +42,7 @@ Object.values(entradas).forEach(campo => {
         localStorage.setItem(CHAVES.empregado, entradas.empregado.value.trim())
         localStorage.setItem(CHAVES.valorDia, entradas.valorDia.value.trim())
         localStorage.setItem(CHAVES.diasTrabalhados, entradas.diasTrabalhados.value.trim())
+        localStorage.setItem(CHAVES.diaEmissao, entradas.diaEmissao.value.trim())
         localStorage.setItem(CHAVES.mesNumerico, entradas.mesNumerico.value.trim())
         localStorage.setItem(CHAVES.ano, entradas.ano.value.trim())
         localStorage.setItem(CHAVES.localTrabalhado, entradas.localTrabalhado.value.trim())
@@ -61,6 +64,7 @@ function diasNoMes(mes, ano) {
 function dadosRecibo() {
     const valorDia = parseFloat(entradas.valorDia.value)
     const diasTrab = parseInt(entradas.diasTrabalhados.value, 10)
+    const diaEmissao = parseInt(entradas.diaEmissao.value, 10)
     const mesNum = parseInt(entradas.mesNumerico.value, 10)
     const anoAtual = parseInt(entradas.ano.value, 10)
     const total = valorDia * diasTrab
@@ -70,6 +74,8 @@ function dadosRecibo() {
         mesNome: nomeDoMes(mesNum),
         empregado: entradas.empregado.value.trim(),
         empregador: entradas.empregador.value.trim(),
+        diasTrabalhados: diasTrab,
+        diaEmissao,
         mesNum,
         anoAtual,
         local: entradas.localTrabalhado.value.trim()
@@ -77,7 +83,7 @@ function dadosRecibo() {
 }
 
 function validar(d) {
-    if (!d.empregador || !d.empregado || !d.local || isNaN(d.total) || isNaN(d.mesNum) || isNaN(d.anoAtual)) {
+    if (!d.empregador || !d.empregado || !d.local || isNaN(d.total) || isNaN(d.mesNum) || isNaN(d.anoAtual) || isNaN(d.diaEmissao)) {
         return false
     }
     if (d.mesNum < 1 || d.mesNum > 12) {
@@ -86,7 +92,10 @@ function validar(d) {
     if (d.anoAtual < 2000 || d.anoAtual > 2100) {
         return false
     }
-    if (d.total <= 0 || entradas.diasTrabalhados.value < 1 || entradas.diasTrabalhados.value > diasNoMes(d.mesNum, d.anoAtual)) {
+    if (d.diaEmissao < 1 || d.diaEmissao > diasNoMes(d.mesNum, d.anoAtual)) {
+        return false
+    }
+    if (d.total <= 0 || d.diasTrabalhados < 1 || d.diasTrabalhados > diasNoMes(d.mesNum, d.anoAtual)) {
         return false
     }
     return true
@@ -104,12 +113,15 @@ function gerarPDF() {
     const doc = new jsPDF('p', 'pt', 'a4')
     html2canvas(areaParaGerar, {
         backgroundColor: '#ffffff',
-        scale: 3
+        scale: 1.5,
+        useCORS: true,
+        allowTaint: false,
+        removeContainer: true
     }).then(canvas => {
         const larguraPagina = doc.internal.pageSize.getWidth()
         const alturaPagina = doc.internal.pageSize.getHeight()
-        const imgData = canvas.toDataURL('image/png')
-        doc.addImage(imgData, 'PNG', 0, 0, larguraPagina, alturaPagina)
+        const imgData = canvas.toDataURL('image/jpeg', 0.8)
+        doc.addImage(imgData, 'JPEG', 0, 0, larguraPagina, alturaPagina)
         doc.save(`recibo-vale-transporte-${info.empregado}-${String(info.mesNum).padStart(2, '0')}-${info.anoAtual}.pdf`)
     })
 }
